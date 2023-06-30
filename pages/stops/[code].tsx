@@ -1,5 +1,4 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { Map, Marker, MapkitProvider } from "react-mapkit";
 import fetch from "node-fetch";
 
 type Stop = {
@@ -29,9 +28,6 @@ export default function StopByCode({ data }: Props) {
   return (
     <div style={{ textAlign: 'right' }}>
       <h1>{data.stop_name} (<small><i>{data.stop_code}</i></small>)</h1>
-      <Map tokenOrCallback="maps.com.tripal.tripal">
-        <Marker latitude={data.stop_lat} longitude={data.stop_lon} />
-      </Map>
     </div>
   )
 }
