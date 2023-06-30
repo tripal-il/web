@@ -1,0 +1,24 @@
+{
+  "name": "tripal",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@types/node-fetch": "^2.6.4",
+    "@types/sqlite3": "^3.1.8",
+    "next": "13.4.7",
+    "node-fetch": "^3.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sqlite": "^4.2.1",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.14",
+    "typescript": "5.1.3"
+  }
+}
