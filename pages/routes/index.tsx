@@ -12,8 +12,10 @@ export default function Stops({ data }: Props) {
   return data.stops.map((route) => {
     let agencies = data.agencies;
     let agency = agencies.find((agency) => agency.agency_id === route.agency_id);
+    let type = ('Train' ? route.agency_id === "2" : 'Bus') ? '🚆' : '🚍';
+    console.log(type);
     return (
-      <div>{route.route_short_name ? route.route_short_name : route.route_long_name} | {agency?.agency_name}</div>
+      <div>{type} | {route.route_short_name ? route.route_short_name : route.route_long_name} | {agency?.agency_name}</div>
     )
   });
 }
