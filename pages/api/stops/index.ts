@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import sqlite3 from 'sqlite3'
 import { open } from 'sqlite'
 
-type Data = {
+export type Stop = {
   stop_id: string
   stop_code: string
   stop_name: string
@@ -20,7 +20,7 @@ type Data = {
   platform_code: string | number | null
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse<Array<Data>>) => {
+export default async (req: NextApiRequest, res: NextApiResponse<Array<Stop>>) => {
   const db = await open({ filename: 'data.db', driver: sqlite3.Database });
   const stops = await db.all("select * from stops");
 

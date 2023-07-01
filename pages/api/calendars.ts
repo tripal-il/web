@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import sqlite3 from 'sqlite3'
 import { open } from 'sqlite'
 
-type Data = {
+export type Calendar = {
   service_id: string
   monday: number
   tuesday: number
@@ -15,9 +15,9 @@ type Data = {
   end_date: number
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse<Array<Data>>) => {
+export default async (req: NextApiRequest, res: NextApiResponse<Array<Calendar>>) => {
   const db = await open({ filename: 'data.db', driver: sqlite3.Database });
-  const calendars: Array<Data> = await db.all("select * from calendar");
+  const calendars: Array<Calendar> = await db.all("select * from calendar");
 
   res.json(calendars);
 }

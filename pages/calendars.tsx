@@ -1,18 +1,7 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import fetch from "node-fetch";
 
-type Calendar = {
-  service_id: string
-  monday: number
-  tuesday: number
-  wednesday: number
-  thursday: number
-  friday: number
-  saturday: number
-  sunday: number
-  start_date: number
-  end_date: number
-}
+import type { Calendar } from "./api/calendars";
 
 type Props = {
   data: Array<Calendar>

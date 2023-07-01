@@ -1,23 +1,7 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import fetch from "node-fetch";
 
-type Stop = {
-  stop_id: string
-  stop_code: string
-  stop_name: string
-  tts_stop_name: string | null
-  stop_desc: string
-  stop_lat: number
-  stop_lon: number
-  zone_id: string
-  stop_url: string | null
-  location_type: number
-  parent_station: string | null
-  stop_timezone: string | null
-  wheelchair_boarding: string | null
-  level_id: string | null
-  platform_code: string | number | null
-}
+import type { Stop } from "../api/stops";
 
 
 type Props = {
