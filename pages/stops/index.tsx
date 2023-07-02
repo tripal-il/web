@@ -38,7 +38,7 @@ export default function Stops({ data }: Props) {
     }
   }
 
-  return <div>closest bus stop: {closestStop?.stop_name} | distance from your location: {closestDistance.toFixed(2)}km</div>
+  return <div>closest bus stop: {closestStop?.stop_name}<br/>{closestDistance.toFixed(2)} kilometers away</div>
 }
 
 export const getServerSideProps: GetServerSideProps = async (_ctx: GetServerSidePropsContext) => {
