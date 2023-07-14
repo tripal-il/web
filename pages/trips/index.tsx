@@ -32,7 +32,18 @@ export default function Stops({ routes, agencies }: Props) {
 
   const FoundRoutes: React.FC<{ routes: Array<{ route_id: string, route_short_name: string, agency_name: string }> }> = ({ routes }) => {
     if (routes) {
-      return routes.map((route) => {
+      let realRoutes: Array<{ route_id: string, route_short_name: string, agency_name: string }> = [];
+
+      for (const route of routes) {
+        let search = realRoutes.find((s) => s.agency_name === route.agency_name && s.route_short_name === route.route_short_name);
+        if (search) {
+          continue;
+        } else {
+          realRoutes.push(route);
+        }
+      }
+
+      return realRoutes.map((route) => {
         return (
           <div>
             <Link href={`/trips/${route.route_id}`}>{route.route_short_name} ({route.agency_name})</Link>
@@ -44,8 +55,8 @@ export default function Stops({ routes, agencies }: Props) {
 
   return (
     <div>
-      <input placeholder="search for route" onChange={(e) => setValue(e.target.value)} />
-      <button onClick={() => findRoutes(value as string) }>search</button>
+      <input className="input" placeholder="search for route" onChange={(e) => setValue(e.target.value)} />
+      <button className="button is-primary" onClick={() => findRoutes(value as string) }>search</button>
       <br />
       <hr />
       <br />

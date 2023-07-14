@@ -39,17 +39,16 @@ export default function Stops({ data }: Props) {
   }
 
   return (
-    <div>
-      <div className="m-10">
-        <h1 className="text-3xl font-bold text-gray-900">Search for stops</h1>
-        <br />
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
-          <div className="px-6 py-4">
-            <div className="text-sm mb-2">Closest stop</div>
-            <div className="font-bold text-xl mb-2">{closestStop?.stop_name}</div>
-            <div className="text-base">
-              <b>{closestDistance.toFixed(2)}km</b> away from you
-            </div>
+    <div style={{ margin: '45px' }}>
+      <h1 className="title">Search for stops</h1>
+      <div className="card" style={{ width: '255px' }}>
+        <div className="card-content">
+          <div className="media-content">
+            <div className="title is-4">{closestStop?.stop_name}</div>
+            <div className="subtitle is-6">Closest stop</div>
+          </div>
+          <div className="content">
+            <b>{closestDistance.toFixed(2)}km</b> away from you
           </div>
         </div>
       </div>

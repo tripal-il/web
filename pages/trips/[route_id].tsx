@@ -41,8 +41,8 @@ const BusTimes: React.FC<{ data: TripInformation, reversed: boolean, lon: number
     return data.map((stop) => {
       if (stop.stop_name === (closestStop as { stop_id: string, stop_name: string, stop_lon: number, stop_lat: number }).stop_name) {
         return (
-          <div style={{ border: '5px solid grey' }}>
-            <h4 className="font-bold">{stop.stop_name}</h4><div>{closestDistance.toFixed(2)}km away</div>
+          <div>
+            <h4 className="title is-5">{stop.stop_name} ({closestDistance.toFixed(2)}km away)</h4>
           </div>
         )
       } else {
@@ -58,8 +58,8 @@ const BusTimes: React.FC<{ data: TripInformation, reversed: boolean, lon: number
     return data.map((stop) => {
       if (stop.stop_name === (closestStop as { stop_id: string, stop_name: string, stop_lon: number, stop_lat: number }).stop_name) {
         return (
-          <div style={{ border: '5px solid grey' }}>
-            <h4 className="font-bold">{stop.stop_name}</h4><div>{closestDistance.toFixed(2)}km away</div>
+          <div>
+            <h4 className="title is-5">{stop.stop_name} ({closestDistance.toFixed(2)}km away)</h4>
           </div>
         )
       } else {
@@ -89,9 +89,19 @@ export default function Trip({ trip_info, agency_name, route_short_name, route_l
   }, []);
 
   return (
-    <div>
-      <h1 className="text-lg font-bold">{route_short_name} ({agency_name})<br/>{route_long_name}</h1><span><button onClick={() => setIsReversed(isReversed ? false : true)}>change direction</button></span>
-      <BusTimes data={trip_info} reversed={isReversed as boolean} lon={location?.longitude as number} lat={location?.latitude as number} />
+    <div style={{ margin: '45px' }}>
+      <div className="card">
+        <div className="card-content">
+          <div className="title is-4">{route_short_name}</div>
+          <div className="subtitle is-5">{agency_name}</div>
+          <br />
+          <div className="media-content">
+            <button style={{ float: 'right' }} className="button is-info" onClick={() => setIsReversed(isReversed ? false : true)}>change direction</button>
+            <br />
+            <BusTimes data={trip_info} reversed={isReversed as boolean} lon={location?.longitude as number} lat={location?.latitude as number} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
