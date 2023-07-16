@@ -17,6 +17,14 @@ export function calculateDistance(lat1: any, lon1: any, lat2: number, lon2: numb
   return distance;
 }
 
-export function walkingTime(distance: number) {
-  return distance/averageWalkingSpeed;
+export function walkingTime(distance: number): string {
+  let t = distance/averageWalkingSpeed;
+  if (t < 1) {
+    t = t*60;
+    let ty = (t.toFixed(0) === "1") ? 'minute' : 'minutes';
+    return `${t.toFixed(0)} ${ty} walk`
+  } else {
+    let ty = (t.toFixed(0) === "1") ? 'hour' : 'hours';
+    return `${t.toFixed(0)} ${ty} walk`;
+  }
 }

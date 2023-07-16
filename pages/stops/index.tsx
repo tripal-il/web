@@ -50,7 +50,7 @@ export default function Stops({ data }: Props) {
           <div className="content">
             <b>{closestDistance.toFixed(2)}km</b> away from you
             <br />
-            <b>{(walkingTime(closestDistance)*60).toFixed(0)} minute walk</b>
+            <b>{walkingTime(closestDistance)}</b>
           </div>
         </div>
       </div>
