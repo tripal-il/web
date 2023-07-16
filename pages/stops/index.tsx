@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import fetch from "node-fetch";
 
 import type { Stop } from "../api/stops";
-import { calculateDistance } from "../utils/closestStop";
+import { calculateDistance, walkingTime } from "../utils/closestStop";
 
 type Props = {
   data: Array<Stop>
@@ -49,6 +49,8 @@ export default function Stops({ data }: Props) {
           </div>
           <div className="content">
             <b>{closestDistance.toFixed(2)}km</b> away from you
+            <br />
+            <b>{(walkingTime(closestDistance)*60).toFixed(0)} minute walk</b>
           </div>
         </div>
       </div>
