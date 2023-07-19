@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react"
-import { useRouter } from "next/router"
+import { useState } from "react";
 import { GetServerSideProps } from "next";
 import fetch from "node-fetch";
 import { Agency } from "../api/agencies";
@@ -15,7 +14,6 @@ export default function Stops({ routes, agencies }: Props) {
   const [value, setValue] = useState<string>();
   const [foundRoutes, setFoundRoutes] = useState<Array<{ route_id: string, route_short_name: string, agency_name: string }>>();
   const [visible, setVisible] = useState<boolean>();
-  const router = useRouter();
 
   const findRoutes = (route_short_name: string) => {
     let arr: Array<{ route_id: string, route_short_name: string, agency_name: string }> = [];
