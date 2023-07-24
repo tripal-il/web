@@ -13,6 +13,7 @@ type Props = {
 export default function Stops({ routes, agencies }: Props) {
   const [value, setValue] = useState<string>();
   const [foundRoutes, setFoundRoutes] = useState<Array<{ route_id: string, route_short_name: string, agency_name: string }>>();
+  const [routesLength, setRoutesLength] = useState<number>();
   const [visible, setVisible] = useState<boolean>();
 
   const findRoutes = (route_short_name: string) => {
@@ -41,6 +42,8 @@ export default function Stops({ routes, agencies }: Props) {
         }
       }
 
+      setRoutesLength(realRoutes.length);
+
       return realRoutes.map((route) => {
         return (
           <div>
@@ -60,6 +63,7 @@ export default function Stops({ routes, agencies }: Props) {
       <br />
 
       <div style={{ display: visible ? 'block' : 'none' }}>
+        <h3>Found {routesLength} {routesLength === 1 ? "bus" : "buses"}</h3>
         <FoundRoutes routes={foundRoutes as Array<{ route_id: string, route_short_name: string, agency_name: string }>} />
       </div>
     </div>

@@ -42,7 +42,7 @@ const BusTimes: React.FC<{ data: TripInformation, reversed: boolean, lon: number
       if (stop.stop_name === (closestStop as { stop_id: string, stop_name: string, stop_lon: number, stop_lat: number }).stop_name) {
         return (
           <div>
-            <h4 className="title is-5">{stop.stop_name} ({closestDistance.toFixed(2)}km away, {walkingTime(closestDistance)}</h4>
+            <h4 className="title is-5">{stop.stop_name} ({closestDistance.toFixed(2)}km away, {walkingTime(closestDistance)})</h4>
           </div>
         )
       } else {
