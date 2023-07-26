@@ -1,28 +1,13 @@
-import { useRouter } from "next/router"
+import Head from "next/head"
 
 export default function Home() {
-  const router = useRouter();
   return (
-    <div style={{ margin: '45px' }}>
-      <div className="title is-2">Hey there!</div>
-      <br />
-      <br />
-      <br />
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', justifyContent: 'space-between' }}>
-        <div className="card" style={{ cursor: 'pointer' }} onClick={() => router.push('/trips') }>
-          <div className="card-content">
-            <div className="media-content">
-              Search for routes
-            </div>
-          </div>
-        </div>
-        <div className="card" style={{ cursor: 'pointer' }} onClick={() => router.push('/stops') }>
-          <div className="card-content">
-            <div className="media-content">
-              Find stops
-            </div>
-          </div>
-        </div>
+    <div>
+      <Head>
+        <link rel="icon" href="images/icon.png" />
+      </Head>
+      <div className="ml-10 mt-10 flex justify-center">
+        <img src="/images/logo.png" width={500}></img>
       </div>
     </div>
   )
