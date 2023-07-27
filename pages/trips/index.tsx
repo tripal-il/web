@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { GetServerSideProps } from "next";
-import fetch from "node-fetch";
-import { Agency } from "../api/agencies";
-import { Route } from "../api/routes";
+import { routes, agencies, Route, Agency } from "../utils/db";
 import { RouteFC } from "../../components/Route";
+import Head from "next/head";
 
 type Props = {
   routes: Array<Route>
@@ -52,6 +51,9 @@ export default function Stops({ routes, agencies }: Props) {
 
   return (
     <div>
+      <Head>
+        <link rel="icon" href="images/icon.png" />
+      </Head>
       <input className="input" placeholder="search for route" onChange={(e) => setValue(e.target.value)} />
       <button className="button is-primary" onClick={() => findRoutes(value as string) }>search</button>
       <br />
@@ -67,16 +69,13 @@ export default function Stops({ routes, agencies }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const routes_req = await fetch("http://localhost:3000/api/routes");
-  const routes = await routes_req.json();
-
-  const agencies_req = await fetch('http://localhost:3000/api/agencies');
-  const agencies = await agencies_req.json();
+  const rts = await routes();
+  const agncs = await agencies();
 
   return {
     props: {
-      routes,
-      agencies
+      routes: rts,
+      agencies: agncs
     }
   }
 }

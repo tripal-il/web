@@ -1,9 +1,11 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useEffect, useState } from "react";
-import fetch from "node-fetch";
 
-import type { Stop } from "../api/stops";
+import { ClosestStop, StopFC } from "../../components/Stop";
+import type { Stop } from "../utils/db";
 import { calculateDistance, walkingTime } from "../utils/closestStop";
+import { stops } from "../utils/db";
+import Head from "next/head";
 
 type Props = {
   data: Array<Stop>
@@ -33,7 +35,7 @@ export default function Stops({ data }: Props) {
     }
   }, []);
 
-  let closestStop;
+  let closestStop: Stop;
   let closestDistance = Infinity;
 
   for (const stop of data) {
@@ -81,43 +83,18 @@ export default function Stops({ data }: Props) {
   const FoundStops: React.FC<{ stops: Array<FoundStop> }> = ({ stops }) => {
     if (stops) {
       return stops.map((stop) => {
-        return (
-          <div>
-            <div className="card" style={{ width: '255px' }}>
-              <div className="card-content">
-                <div className="media-content">
-                  <div className="title is-4">{stop.stop_name}</div>
-                  <div className="content">
-                    <b>{stop.distance.toFixed(2)}km</b> away from you
-                    <br />
-                    <b>{stop.walkingTime}</b>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br />
-          </div>
-        )
+        return <StopFC stop_name={stop.stop_name} stop_id={stop.stop_id} stop_lat={stop.stop_lat} stop_lon={stop.stop_lon} closest={(closestStop as Stop).stop_name === stop.stop_name ? true : false} />
       })
     }
   }
 
   return (
     <div style={{ margin: '45px' }}>
+      <Head>
+        <link rel="icon" href="images/icon.png" />
+      </Head>
       <h1 className="title">Search for stops</h1>
-      <div className="card" style={{ width: '255px' }}>
-        <div className="card-content">
-          <div className="media-content">
-            <div className="title is-4">{closestStop?.stop_name}</div>
-            <div className="subtitle is-6">Closest stop</div>
-          </div>
-          <div className="content">
-            <b>{closestDistance.toFixed(2)}km</b> away from you
-            <br />
-            <b>{walkingTime(closestDistance)}</b>
-          </div>
-        </div>
-      </div>
+      <ClosestStop data={data} />
       <br />
       <div>
         <input className="input" placeholder="search for stops" onChange={(e) => setValue(e.target.value)} />
@@ -135,12 +112,11 @@ export default function Stops({ data }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (_ctx: GetServerSidePropsContext) => {
-  const req = await fetch('http://localhost:3000/api/stops');
-  const stops = await req.json() as Array<Stop>;
+  const stps = await stops();
 
   return {
     props: {
-      data: stops,
+      data: stps,
     }
   }
 }

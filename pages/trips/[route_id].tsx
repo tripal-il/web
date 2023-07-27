@@ -1,12 +1,9 @@
 import type { GetServerSideProps } from "next"
-import type { Route } from "../api/routes"
-import fetch from "node-fetch"
-import { Trip } from "../api/trips"
-import { StopTime } from "../api/stop_times/trip/[trip_id]"
-import { Stop } from "../api/stops"
-import { Agency } from "../api/agencies"
+import { Trip, Stop, Agency } from "../utils/db"
 import { useEffect, useState } from "react"
 import { calculateDistance, walkingTime } from "../utils/closestStop"
+import { agencies, routes, stop_times_trip, stops, trips } from "../utils/db"
+import Head from "next/head"
 
 type Props = {
   trip_info: TripInformation
@@ -90,6 +87,9 @@ export default function Trip({ trip_info, agency_name, route_short_name, route_l
 
   return (
     <div style={{ margin: '45px' }}>
+      <Head>
+        <link rel="icon" href="images/icon.png" />
+      </Head>
       <div className="card">
         <div className="card-content">
           <div className="title is-4">{route_short_name}</div>
@@ -108,32 +108,26 @@ export default function Trip({ trip_info, agency_name, route_short_name, route_l
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const route_id = (ctx.params as { route_id: string })['route_id'];
-  const route_req = await fetch('http://localhost:3000/api/routes');
-  const route_res = await route_req.json() as Array<Route>;
-  const route = route_res.find((route) => route.route_id === route_id);
+  const rts = await routes();
+  const route = rts.find((route) => route.route_id === route_id);
   const route_long_name = route?.route_long_name;
   const route_short_name = route?.route_short_name;
 
-  const agencies_req = await fetch('http://localhost:3000/api/agencies');
-  const agencies_res = await agencies_req.json() as Array<Agency>;
-  const agency = agencies_res.find((agency) => agency.agency_id === route?.agency_id) as Agency;
+  const agncs = await agencies();
+  const agency = agncs.find((agency) => agency.agency_id === route?.agency_id) as Agency;
   const agency_name = agency.agency_name;
 
-  const trips_req = await fetch('http://localhost:3000/api/trips');
-  const trips_res = await trips_req.json() as Array<Trip>;
-  const trip = trips_res.find((trip) => trip.route_id === route_id);
+  const trps = await trips();
+  const trip = trps.find((trip) => trip.route_id === route_id);
   const trip_id = trip?.trip_id;
 
-  const stops_req = await fetch('http://localhost:3000/api/stops');
-  const stops_res = await stops_req.json() as Array<Stop>;
-
-  const stop_times_req = await fetch(`http://localhost:3000/api/stop_times/trip/${trip_id}`);
-  const stop_times_res = await stop_times_req.json() as Array<StopTime>;
+  const stps = await stops();
+  const stop_times = await stop_times_trip(trip_id);
 
   let data: TripInformation = [];
 
-  for (const stop of stop_times_res) {
-    const foundStop = stops_res.find((foundStop) => foundStop.stop_id === stop.stop_id) as Stop;
+  for (const stop of stop_times) {
+    const foundStop = stps.find((foundStop) => foundStop.stop_id === stop.stop_id) as Stop;
     data.push({ stop_id: stop.stop_id, stop_name: foundStop.stop_name, stop_sequence: stop.stop_sequence, stop_lon: foundStop.stop_lon, stop_lat: foundStop.stop_lat });
   }
 

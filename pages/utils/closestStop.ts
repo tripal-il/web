@@ -22,9 +22,9 @@ export function walkingTime(distance: number): string {
   if (t < 1) {
     t = t*60;
     let ty = (t.toFixed(0) === "1") ? 'minute' : 'minutes';
-    return `${t.toFixed(0)} ${ty} walk`
+    return `${t.toFixed(0)} ${ty}`
   } else {
     let ty = (t.toFixed(0) === "1") ? 'hour' : 'hours';
-    return `${t.toFixed(0)} ${ty} walk`;
+    return `${t.toFixed(0)} ${ty}`;
   }
 }
