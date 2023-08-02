@@ -68,7 +68,7 @@ export const StopFC: React.FC<StopData> = ({stop_name, stop_id, stop_lat, stop_l
         <button className="flex p-4 w-64 h-18 bg-[#2b333d] rounded-md shadow-md border-2 border-white hover:border-[#0388fc] duration-300 transition-all">
             <Icon.MapPin className='mt-6 w-8 h-8 pr-2'/>
           <div className='flex flex-col'>
-          <h3 className="monserrat text-[#B0CFFF] text-left font-bold text-lg">{stop_name}<span className="dmsans pl-2 text-sm text-white font-regular">{closest ? "closest stop" : ""}</span></h3>
+          <h3 className="monserrat text-[#B0CFFF] text-left font-bold text-lg">{stop_name} {stop_id}<span className="dmsans pl-2 text-sm text-white font-regular">{closest ? "closest stop" : ""}</span></h3>
             <h3 className="flex monserrat text-white text-right text-md">Distance:<span className="pl-2 monserrat text-white text-left font-bold text-md">{distance.toFixed(2)}km</span></h3> 
             <h3 className="flex monserrat text-white text-right text-md">Walk time:<span className="pl-2 monserrat text-white text-left font-bold text-md">{wt}</span></h3> 
         </div>
