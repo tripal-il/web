@@ -1,14 +1,6 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 
-export type Shape = {
-  shape_id: string;
-  shape_pt_lat: number;
-  shape_pt_lon: number;
-  shape_pt_sequence: number;
-  shape_dist_traveled: any;
-};
-
 export type Route = {
   route_id: string;
   agency_id: string;
@@ -70,80 +62,9 @@ const open_db = async () => {
   return await open({ filename: "data.db", driver: sqlite3.Database });
 };
 
-export const route_shapes = async (route_id: string) => {
-  const db = await open_db();
-  const route = (await db.get(
-    "select * from routes where route_id = ?",
-    route_id,
-  )) as Route;
-  const trip = (await db.get(
-    "select * from trips where route_id = ?",
-    route.route_id,
-  )) as Trip;
-  const shape_id = trip.shape_id;
-
-  const shapes = await db.all(
-    "select * from shapes where shape_id = ?",
-    shape_id,
-  );
-
-  return shapes;
-};
-
-export const stop_times_trip = async (trip_id: string) => {
-  const db = await open_db();
-  const stop_times = await db.all(
-    "select * from stop_times where trip_id = ?",
-    trip_id,
-  );
-
-  return stop_times;
-};
-
 export const stops = async () => {
   const db = await open_db();
   const stops = await db.all("select * from stops");
 
   return stops;
-};
-
-export const stop_by_id = async (stop_code: string) => {
-  const db = await open_db();
-  const stop = (await db.all(
-    "select * from stops where stop_code = ?",
-    stop_code,
-  )) as Stop;
-
-  return stop.stop_name;
-};
-
-export const agencies = async () => {
-  const db = await open_db();
-  const agencies = await db.all("select * from agency");
-
-  return agencies;
-};
-
-export const agency_by_id = async (agency_id: string) => {
-  const db = await open_db();
-  const agency = (await db.all(
-    "select * from agency where agency_id = ?",
-    agency_id,
-  )) as Agency;
-
-  return agency.agency_name;
-};
-
-export const routes = async () => {
-  const db = await open_db();
-  const routes = await db.all("select * from routes");
-
-  return routes;
-};
-
-export const trips = async () => {
-  const db = await open_db();
-  const trips = await db.all("select * from trips");
-
-  return trips;
 };
