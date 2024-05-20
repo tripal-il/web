@@ -71,6 +71,7 @@ export const StopFC: React.FC<StopData> = ({
   const [arrivals, setArrivals] = useState<MonitoredStopVisit[]>([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [value, setValue] = useState("");
 
   const calculateMinutesUntilArrival = (arrivalTime: string) => {
     const now = new Date();
@@ -88,7 +89,7 @@ export const StopFC: React.FC<StopData> = ({
         throw new Error(`Error: ${response.statusText}`);
       }
       const data = await response.json();
-      if (data.length != 0) setArrivals(data);
+      if (data.length !== 0) setArrivals(data);
       else setLoading(true);
     } catch (error: any) {
       setError(error.message);
@@ -132,44 +133,45 @@ export const StopFC: React.FC<StopData> = ({
   }
 
   return (
-    <button className="flex p-4 w-64 h-18 bg-[#2b333d] rounded-md shadow-md border-2 border-white hover:border-[#0388fc] duration-300 transition-all">
-      <Icon.MapPin className="mt-6 w-8 h-8 pr-2" />
-      <div className="flex flex-col">
-        <h3 className="monserrat text-[#B0CFFF] text-left font-bold text-lg">
-          {stop_name} {stop_code}
-          <span className="dmsans pl-2 text-sm text-white font-regular">
-            {closest ? "closest stop" : ""}
-          </span>
-        </h3>
-        <h3 className="flex monserrat text-white text-right text-md">
-          Distance:
-          <span className="pl-2 monserrat text-white text-left font-bold text-md">
-            {distance.toFixed(2)}km
-          </span>
-        </h3>
-        <h3 className="flex monserrat text-white text-right text-md">
-          Walk time:
-          <span className="pl-2 monserrat text-white text-left font-bold text-md">
-            {wt}
-          </span>
-        </h3>
-        <h3 className="flex monserrat text-white text-right text-md">
-          Upcoming departures:
-        </h3>
-        <ul>
-          {arrivals.map((arrival, index) => (
-            <li key={index}>
-              Line {arrival.MonitoredVehicleJourney.PublishedLineName}
-              <span style={{ color: "green" }}>
-                {calculateMinutesUntilArrival(
-                  arrival.MonitoredVehicleJourney.MonitoredCall
-                    .ExpectedArrivalTime,
-                ) !== 0
-                  ? ` in ${calculateMinutesUntilArrival(arrival.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime)}`
-                  : " now"}
-              </span>
-            </li>
-          ))}
+    <button className="flex flex-col p-4 w-80 bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg shadow-lg hover:shadow-xl border-2 border-blue-900 transition duration-300">
+      <Icon.MapPin className="w-8 h-8 mx-auto mb-2 text-white" />
+      <div className="text-white">
+        <div className="flex justify-between">
+          <h3 className="font-semibold text-lg">
+            {closest ? "Closest stop" : ""}
+          </h3>
+          <h3 className="font-semibold text-lg">
+            {stop_name} {stop_code}
+          </h3>
+        </div>
+        <div className="justify-between mt-2">
+          <h3>
+            Distance:{" "}
+            <span className="font-semibold">{distance.toFixed(2)} km</span>
+          </h3>
+          <h3>
+            Walk time: <span className="font-semibold">{wt}</span>
+          </h3>
+        </div>
+        <h3 className="mt-2">Upcoming departures:</h3>
+        <ul className="text-sm">
+          {arrivals.length > 0 ? (
+            arrivals.map((arrival, index) => (
+              <li key={index}>
+                Line {arrival.MonitoredVehicleJourney.PublishedLineName}{" "}
+                <span style={{ color: "green" }}>
+                  {calculateMinutesUntilArrival(
+                    arrival.MonitoredVehicleJourney.MonitoredCall
+                      .ExpectedArrivalTime,
+                  ) !== 0
+                    ? ` in ${calculateMinutesUntilArrival(arrival.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime)} mins`
+                    : " now"}
+                </span>
+              </li>
+            ))
+          ) : (
+            <li>No upcoming departures.</li>
+          )}
         </ul>
       </div>
     </button>
