@@ -1,5 +1,5 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -8,4 +8,4 @@ function MyApp({ Component, pageProps }: AppProps) {
     </div>
   );
 }
-export default MyApp
+export default MyApp;
