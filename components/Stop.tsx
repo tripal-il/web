@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 import { useSpring, animated } from "@react-spring/web";
-import { calculateDistance, walkingTime } from "../pages/utils/closestStop";
-import { type Stop } from "../pages/utils/db";
+import { calculateDistance, walkingTime } from "../utils/closestStop";
+import { type Stop } from "../utils/db";
 import * as Icon from "react-feather";
-import type { MonitoredStopVisit } from "../pages/utils/siri";
+import type { MonitoredStopVisit } from "../utils/siri";
 import { useMediaQuery } from "react-responsive";
 
 interface StopData {

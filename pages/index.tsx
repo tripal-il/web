@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { ClosestStop, StopFC } from "../components/Stop";
-import type { Stop } from "./utils/db";
-import { calculateDistance, walkingTime } from "./utils/closestStop";
-import { stops } from "./utils/db";
+import type { Stop } from "../utils/db";
+import { calculateDistance, walkingTime } from "../utils/closestStop";
 import Head from "next/head";
 import Image from "next/image";
 import axios from "axios";

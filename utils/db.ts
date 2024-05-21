@@ -1,6 +1,3 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-
 export type Route = {
   route_id: string;
   agency_id: string;
@@ -56,15 +53,4 @@ export type Agency = {
   agency_phone: string | null;
   agency_fare_url: string | null;
   agency_email: string | null;
-};
-
-const open_db = async () => {
-  return await open({ filename: "data.db", driver: sqlite3.Database });
-};
-
-export const stops = async () => {
-  const db = await open_db();
-  const stops = await db.all("select * from stops");
-
-  return stops;
 };
