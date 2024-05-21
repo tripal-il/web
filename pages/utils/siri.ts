@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 export type MonitoredCall = {
   StopPointRef: string;
   Order: string;
@@ -26,8 +24,6 @@ export type MonitoredVehicleJourney = {
   Velocity: string;
   VehicleRef: string;
   MonitoredCall: MonitoredCall;
-  operatorName: string; // custom
-  destinationName: string; // custom
 };
 
 export type MonitoredStopVisit = {

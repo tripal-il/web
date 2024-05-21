@@ -5,6 +5,7 @@ import { calculateDistance, walkingTime } from "./utils/closestStop";
 import { stops } from "./utils/db";
 import Head from "next/head";
 import Image from "next/image";
+import axios from "axios";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 type Props = {
@@ -85,6 +86,10 @@ export default function Home({ data }: Props) {
       <br />
       <hr />
       <br />
+      <h3 className="font-semibold text-xl">
+        Closest stops:
+      </h3>
+      <br />
       <ClosestStop data={data} />
       <div className="mt-6">
         <input
@@ -153,7 +158,8 @@ export default function Home({ data }: Props) {
 export const getServerSideProps: GetServerSideProps = async (
   _ctx: GetServerSidePropsContext,
 ) => {
-  const stps = await stops();
+  const rq = await axios.get('http://localhost:8080/stops');
+  const stps = rq.data;
 
   return {
     props: {

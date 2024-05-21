@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,17 +12,21 @@
 
 html {
   @apply bg-[#313b45];
-  font-family: "DM Sans", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
+
 .dmsans {
-  font-family: "DM Sans", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
+
 .monserrat {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
+
 .opensans {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
+
 .unselectable {
   user-drag: none;
   user-select: none;

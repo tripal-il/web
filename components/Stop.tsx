@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { useSwipeable } from "react-swipeable";
+import { useSpring, animated } from "@react-spring/web";
 import { calculateDistance, walkingTime } from "../pages/utils/closestStop";
 import { type Stop } from "../pages/utils/db";
 import * as Icon from "react-feather";
 import type { MonitoredStopVisit } from "../pages/utils/siri";
+import { useMediaQuery } from "react-responsive";
 
 interface StopData {
   stop_name: string;
@@ -18,6 +21,7 @@ export const ClosestStop: React.FC<{ data: Array<Stop> }> = ({ data }) => {
     longitude: number;
     latitude: number;
   }>();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -28,32 +32,78 @@ export const ClosestStop: React.FC<{ data: Array<Stop> }> = ({ data }) => {
     }
   }, []);
 
-  let closestStop;
-  let closestDistance = Infinity;
+  const getClosestStops = (location: { longitude: number, latitude: number } | undefined) => {
+    if (!location) return [];
 
-  for (const stop of data) {
-    const distance = calculateDistance(
-      location?.latitude,
-      location?.longitude,
-      stop.stop_lat,
-      stop.stop_lon,
-    );
+    return data
+      .map((stop) => ({
+        ...stop,
+        distance: calculateDistance(location.latitude, location.longitude, stop.stop_lat, stop.stop_lon),
+      }))
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 3);
+  };
 
-    if (distance < closestDistance) {
-      closestStop = stop;
-      closestDistance = distance;
-    }
+  const closestStops = getClosestStops(location);
+
+  const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      setSwipeDirection('left');
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % closestStops.length);
+    },
+    onSwipedRight: () => {
+      setSwipeDirection('right');
+      setCurrentIndex((prevIndex) => (prevIndex - 1 + closestStops.length) % closestStops.length);
+    },
+  });
+
+  const animationProps = useSpring({
+    from: { opacity: 0, transform: swipeDirection === 'left' ? 'translateX(100%)' : 'translateX(-100%)' },
+    to: { opacity: 1, transform: 'translateX(0%)' },
+    reset: true,
+  });
+
+  const isDesktop = useMediaQuery({ query: '(min-width: 1224px)' });
+
+  if (closestStops.length === 0) {
+    return <div>Loading...</div>;
   }
 
+  if (isDesktop) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {closestStops.map((stop, index) => (
+          <div key={stop.stop_id} style={{ marginRight: '10px' }}>
+            <StopFC
+              stop_name={stop.stop_name}
+              stop_code={stop.stop_code}
+              stop_id={stop.stop_id}
+              stop_lat={stop.stop_lat}
+              stop_lon={stop.stop_lon}
+              closest={index === 0}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const currentStop = closestStops[currentIndex];
+
   return (
-    <StopFC
-      stop_name={closestStop?.stop_name as string}
-      stop_code={closestStop?.stop_code as string}
-      stop_id={closestStop?.stop_id as string}
-      stop_lat={closestStop?.stop_lat as number}
-      stop_lon={closestStop?.stop_lon as number}
-      closest={true}
-    />
+    <div {...handlers}>
+      <animated.div style={animationProps}>
+        <StopFC
+          stop_name={currentStop.stop_name}
+          stop_code={currentStop.stop_code}
+          stop_id={currentStop.stop_id}
+          stop_lat={currentStop.stop_lat}
+          stop_lon={currentStop.stop_lon}
+          closest={true}
+        />
+      </animated.div>
+    </div>
   );
 };
 
@@ -137,9 +187,9 @@ export const StopFC: React.FC<StopData> = ({
       <Icon.MapPin className="w-8 h-8 mx-auto mb-2 text-white" />
       <div className="text-white">
         <div className="flex justify-between">
-          <h3 className="font-semibold text-lg">
+          {/* <h3 className="font-semibold text-lg">
             {closest ? "Closest stop" : ""}
-          </h3>
+          </h3> */}
           <h3 className="font-semibold text-lg">
             {stop_name} {stop_code}
           </h3>
