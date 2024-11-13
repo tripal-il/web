@@ -1,6 +1,5 @@
-# Tripal - your in-pocket transportation pal!
+# Tripal - Your In-Pocket Transportation Pal!
 
-## **⏳ Work in progress ⏳**
+**⏳ Work in progress ⏳**
 
-Data has been received from OpenMobility's Israel GTFS (https://transitfeeds.com/p/ministry-of-transport-and-road-safety/820).<br />
-The application will soon also support multiple countries, I'll stick with my country's data as an implementation of the first version.
+This app is built using data from OpenMobility's Israel GTFS, sourced from the Ministry of Transport and Road Safety (Israel). The goal of Tripal is to provide users with seamless transportation information within Israel. While this initial version focuses on local data, I plan to extend support to multiple countries in the future.
